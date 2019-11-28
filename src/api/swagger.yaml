@@ -1,0 +1,142 @@
+swagger: "2.0"
+info:
+  title: Phonebook API
+  description: API directly coupled to the phonebook frontend
+  version: "1.0"
+produces:
+  - application/json
+host: "localhost:3000"
+basePath: /api
+paths:
+  /entries:
+    get:
+      x-swagger-router-controller: entries
+      operationId: getEntries
+      tags:
+        - /entries
+      description: Returns a list of existing entries
+      responses:
+        "200":
+          description: Successful request
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Entry"
+        default:
+          description: Invalid request
+          schema:
+            $ref: "#/definitions/Error"
+    post:
+      x-swagger-router-controller: entries
+      operationId: postEntry
+      tags:
+        - /entries
+      description: Creates a new entry
+      parameters:
+        - in: body
+          name: entry
+          description: The entry
+          schema:
+            $ref: "#/definitions/Entry"
+      responses:
+        "200":
+          description: Successful request
+          schema:
+            $ref: "#/definitions/Entry"
+        "404":
+          description: Entry does not exist
+          schema:
+            $ref: "#/definitions/Error"
+        default:
+          description: Invalid request
+          schema:
+            $ref: "#/definitions/Error"
+  /entries/{entryId}:
+    parameters:
+      - name: entryId
+        in: path
+        required: true
+        description: The ID of the entry
+        type: string
+    get:
+      x-swagger-router-controller: entries
+      operationId: getEntry
+      tags:
+        - /entries
+      description: Returns a single entry
+      responses:
+        "200":
+          description: Successful request
+          schema:
+            $ref: "#/definitions/Entry"
+        "404":
+          description: Entry does not exist
+          schema:
+            $ref: "#/definitions/Error"
+        default:
+          description: Invalid request
+          schema:
+            $ref: "#/definitions/Error"
+    put:
+      x-swagger-router-controller: entries
+      operationId: putEntry
+      tags:
+        - /entries
+      description: Updates an existing entry
+      parameters:
+        - in: body
+          name: entry
+          description: The entry
+          schema:
+            $ref: "#/definitions/Entry"
+      responses:
+        "200":
+          description: Successful request
+          schema:
+            $ref: "#/definitions/Entry"
+        "404":
+          description: Entry does not exist
+          schema:
+            $ref: "#/definitions/Error"
+        default:
+          description: Invalid request
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      x-swagger-router-controller: entries
+      operationId: deleteEntry
+      tags:
+        - /entries
+      description: Deletes an existing entry
+      responses:
+        "204":
+          description: Successful request
+        "404":
+          description: Entry does not exist
+          schema:
+            $ref: "#/definitions/Error"
+        default:
+          description: Invalid request
+          schema:
+            $ref: "#/definitions/Error"
+definitions:
+  Error:
+    properties:
+      message:
+        type: string
+    required:
+      - message
+  Entry:
+    properties:
+      _id:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      phoneNumber:
+        type: string
+    required:
+      - firstName
+      - lastName
+      - phoneNumber
