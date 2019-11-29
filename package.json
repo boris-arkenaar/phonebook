@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon --exec babel-node src/index.js",
     "start": "babel-node src/index.js",
-    "lint": "eslint --ext js src"
+    "lint": "eslint --ext js --ext jsx src pages"
   },
   "author": "Boris Arkenaar",
   "license": "MIT",
