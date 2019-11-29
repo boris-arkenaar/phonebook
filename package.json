@@ -15,6 +15,8 @@
     "@babel/node": "^7.7.4",
     "@babel/polyfill": "^7.7.0",
     "@babel/preset-env": "^7.7.4",
+    "@material-ui/core": "^4.7.0",
+    "@material-ui/icons": "^4.5.1",
     "babel-eslint": "^10.0.3",
     "babel-plugin-inline-react-svg": "^1.1.0",
     "body-parser": "^1.19.0",
@@ -24,6 +26,7 @@
     "fs-router": "^0.4.4",
     "js-yaml": "^3.13.1",
     "jwks-rsa": "^1.6.0",
+    "material-table": "^1.54.1",
     "mongoose": "^5.7.12",
     "next": "^9.1.4",
     "react": "^16.12.0",
@@ -32,7 +35,8 @@
     "request-promise-native": "^1.0.8",
     "svg-react-loader": "^0.4.6",
     "swagger-mongoose": "^1.1.2",
-    "swagger-tools": "^0.10.4"
+    "swagger-tools": "^0.10.4",
+    "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
     "eslint": "^6.7.1",
