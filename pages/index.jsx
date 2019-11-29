@@ -1,9 +1,9 @@
-import React from 'react';
-import Head from 'next/head';
-import Entries from '../src/entries';
-import 'whatwg-fetch';
+import React from "react";
+import Head from "next/head";
+import Entries from "../src/entries";
+import fetch from "isomorphic-unfetch";
 
-export default () => (
+const Index = ({ entries }) => (
   <div>
     <Head>
       <title>Phonebook</title>
@@ -18,6 +18,19 @@ export default () => (
       />
     </Head>
     <h1>Hello World!</h1>
-    <Entries />
+    <Entries data={entries} />
   </div>
 );
+
+Index.getInitialProps = async () => {
+  const res = await fetch("http://localhost:3000/api/entries");
+  const data = await res.json();
+
+  console.log(`Show data fetched. Count: ${data.length}`);
+
+  return {
+    entries: data
+  };
+};
+
+export default Index;

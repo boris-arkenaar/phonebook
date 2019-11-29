@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import MaterialTable from "material-table";
 import { TextField } from "@material-ui/core";
 
-export default () => {
-  const [entries, setEntries] = useState([]);
+export default ({ data }) => {
+  const [entries, setEntries] = useState(data);
 
   const fetchEntries = async () => {
     const response = await fetch("http://localhost:3000/api/entries");
@@ -24,7 +24,7 @@ export default () => {
   };
 
   useEffect(() => {
-    fetchEntries();
+    //fetchEntries();
   }, []);
 
   return (
@@ -35,11 +35,11 @@ export default () => {
             {
               title: "First name",
               field: "firstName",
-              editComponent: props => (
+              editComponent: editProps => (
                 <TextField
-                  error={!props.value}
-                  value={props.value}
-                  onChange={e => props.onChange(e.target.value)}
+                  error={!editProps.value}
+                  value={editProps.value}
+                  onChange={e => editProps.onChange(e.target.value)}
                 />
               )
             },
