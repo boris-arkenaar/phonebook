@@ -10,6 +10,18 @@ export default () => {
     const body = await response.json();
     setEntries(body);
   };
+  const postEntry = async (data, resolve) => {
+    const response = await fetch("http://localhost:3000/api/entries", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+    const body = await response.json();
+    setEntries([...entries, body]);
+    resolve();
+  };
 
   useEffect(() => {
     fetchEntries();
@@ -17,7 +29,6 @@ export default () => {
 
   return (
     <div>
-      <h1>Entries list ({entries.length})</h1>
       <div style={{ maxWidth: "100%" }}>
         <MaterialTable
           columns={[
@@ -40,7 +51,12 @@ export default () => {
           editable={{
             onRowAdd: newData =>
               new Promise(resolve => {
-                resolve();
+                const data = {
+                  firstName: newData.firstName,
+                  lastName: newData.lastName,
+                  phoneNumber: newData.phoneNumber
+                };
+                postEntry(data, resolve);
               }),
             onRowUpdate: (newData, oldData) =>
               new Promise((resolve, reject) => {
