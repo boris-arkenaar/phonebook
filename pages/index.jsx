@@ -1,7 +1,7 @@
-import React from "react";
-import Head from "next/head";
-import Entries from "../src/entries";
-import fetch from "isomorphic-unfetch";
+import React from 'react';
+import Head from 'next/head';
+import fetch from 'isomorphic-unfetch';
+import Entries from '../src/entries';
 
 const Index = ({ entries }) => (
   <div>
@@ -23,7 +23,7 @@ const Index = ({ entries }) => (
 );
 
 Index.getInitialProps = async () => {
-  const res = await fetch("http://localhost:3000/api/entries");
+  const res = await fetch('http://localhost:3000/api/entries');
   const data = await res.json();
 
   console.log(`Show data fetched. Count: ${data.length}`);
