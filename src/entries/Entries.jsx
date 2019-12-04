@@ -38,6 +38,23 @@ export default ({ data }) => {
     resolve();
   };
 
+  const deleteEntry = async (data, resolve) => {
+    const response = await fetch(
+      `http://localhost:3000/api/entries/${data._id}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+    const newEntries = [...entries];
+    const index = newEntries.findIndex((entry) => entry._id === data._id);
+    newEntries.splice(index, 1);
+    setEntries(newEntries);
+    resolve();
+  };
+
   const entryProperties = ['firstName', 'lastName', 'phoneNumber'];
   const rePhoneNumber = /^\+\d+ \d+ \d{6,}/;
   const validateOne = (key, value) => (key === 'firstName' && value)
@@ -102,7 +119,7 @@ export default ({ data }) => {
               }
             }),
             onRowDelete: (oldData) => new Promise((resolve) => {
-              resolve();
+              deleteEntry(oldData, resolve);
             })
           }}
         />
