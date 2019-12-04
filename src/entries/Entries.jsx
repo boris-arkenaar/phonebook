@@ -18,6 +18,26 @@ export default ({ data }) => {
     setEntries([...entries, body]);
     resolve();
   };
+
+  const putEntry = async (data, resolve) => {
+    const response = await fetch(
+      `http://localhost:3000/api/entries/${data._id}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      }
+    );
+    const body = await response.json();
+    const newEntries = [...entries];
+    const index = newEntries.findIndex((entry) => entry._id === body._id);
+    newEntries.splice(index, 1, body);
+    setEntries(newEntries);
+    resolve();
+  };
+
   const entryProperties = ['firstName', 'lastName', 'phoneNumber'];
   const rePhoneNumber = /^\+\d+ \d+ \d{6,}/;
   const validateOne = (key, value) => (key === 'firstName' && value)
@@ -74,8 +94,12 @@ export default ({ data }) => {
                 reject();
               }
             }),
-            onRowUpdate: (newData, oldData) => new Promise((resolve, reject) => {
-              reject();
+            onRowUpdate: (newData) => new Promise((resolve, reject) => {
+              if (validate(newData)) {
+                putEntry(newData, resolve);
+              } else {
+                reject();
+              }
             }),
             onRowDelete: (oldData) => new Promise((resolve) => {
               resolve();
