@@ -2,54 +2,52 @@ import React, { useState } from 'react';
 import fetch from 'isomorphic-unfetch';
 import MaterialTable from 'material-table';
 import { TextField } from '@material-ui/core';
+import PropTypes from 'prop-types';
 
-export default ({ data }) => {
+const Entries = ({ data }) => {
   const [entries, setEntries] = useState(data);
 
-  const postEntry = async (data, resolve) => {
+  const postEntry = async (entry, resolve) => {
     const response = await fetch('http://localhost:3000/api/entries', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(entry)
     });
     const body = await response.json();
     setEntries([...entries, body]);
     resolve();
   };
 
-  const putEntry = async (data, resolve) => {
+  const putEntry = async (entry, resolve) => {
     const response = await fetch(
-      `http://localhost:3000/api/entries/${data._id}`,
+      `http://localhost:3000/api/entries/${entry._id}`,
       {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(entry)
       }
     );
     const body = await response.json();
     const newEntries = [...entries];
-    const index = newEntries.findIndex((entry) => entry._id === body._id);
+    const index = newEntries.findIndex((item) => item._id === body._id);
     newEntries.splice(index, 1, body);
     setEntries(newEntries);
     resolve();
   };
 
-  const deleteEntry = async (data, resolve) => {
-    const response = await fetch(
-      `http://localhost:3000/api/entries/${data._id}`,
-      {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
-        }
+  const deleteEntry = async (entry, resolve) => {
+    await fetch(`http://localhost:3000/api/entries/${entry._id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
       }
-    );
+    });
     const newEntries = [...entries];
-    const index = newEntries.findIndex((entry) => entry._id === data._id);
+    const index = newEntries.findIndex((item) => item._id === entry._id);
     newEntries.splice(index, 1);
     setEntries(newEntries);
     resolve();
@@ -127,3 +125,16 @@ export default ({ data }) => {
     </div>
   );
 };
+
+Entries.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string,
+      firstName: PropTypes.string,
+      lastName: PropTypes.string,
+      phoneNumber: PropTypes.string
+    })
+  ).isRequired
+};
+
+export default Entries;

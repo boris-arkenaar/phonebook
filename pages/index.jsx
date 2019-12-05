@@ -1,6 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import fetch from 'isomorphic-unfetch';
+import PropTypes from 'prop-types';
 import Entries from '../src/entries';
 
 const Index = ({ entries }) => (
@@ -31,6 +32,17 @@ Index.getInitialProps = async () => {
   return {
     entries: data
   };
+};
+
+Index.propTypes = {
+  entries: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string,
+      firstName: PropTypes.string,
+      lastName: PropTypes.string,
+      phoneNumber: PropTypes.string
+    })
+  ).isRequired
 };
 
 export default Index;
