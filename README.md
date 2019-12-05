@@ -51,6 +51,7 @@ Minimal requirements to set up the project:
   [NPM](https://www.npmjs.com). All instructions in the documentation will
   follow the Yarn syntax.
 - Optionally a [Git](https://git-scm.com) client.
+- It is already linked to a MongoDB in the cloud, so no need to set up.
 
 ### Installing
 
